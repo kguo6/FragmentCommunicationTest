@@ -16,7 +16,6 @@ import android.widget.EditText;
 
 
 public class TextField extends Fragment implements View.OnClickListener{
-    SubmitStringListener mCallBack;
     public TextField(){
     }
 
@@ -28,17 +27,6 @@ public class TextField extends Fragment implements View.OnClickListener{
         Button b = (Button)view.findViewById(R.id.text_field_button);
         b.setOnClickListener(this);
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        try{
-            mCallBack = (SubmitStringListener) context;
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString()
-                    + "must implement SubmitStringListener");
-        }
     }
 
     @Override
@@ -65,9 +53,7 @@ public class TextField extends Fragment implements View.OnClickListener{
         }
     }
 
-    public interface SubmitStringListener{
-        public void submitString(String string);
-    }
+
 
 
 }
