@@ -1,19 +1,23 @@
 package com.example.android.fragmentcomm;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+
+
+
 import android.os.Bundle;
+
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 
-import org.w3c.dom.Text;
 
 public class TextField extends Fragment implements View.OnClickListener{
+    public TextField(){
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -24,26 +28,15 @@ public class TextField extends Fragment implements View.OnClickListener{
         return view;
     }
 
+    public interface FragmentCommunication{
+        public String getMessage();
+    }
     @Override
     public void onClick(View view){
         if(view.getId() == R.id.text_field_button){
-            EditText editText = getView().findViewById(R.id.editText);
-            String message;
-            message = editText.getText().toString();
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            Fragment newFrag = new Fragment();
-            newFrag.equals(new DisplayMessage());
-            transaction.replace(R.id.content_fragment, newFrag);
-            transaction.addToBackStack(null);
-            TextView textView = view.findViewById(R.id.textView3);
-
-            textView.setText("Hello");
-            transaction.commit();
 
         }
     }
-
 
 
 }
