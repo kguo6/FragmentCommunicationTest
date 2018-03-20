@@ -16,8 +16,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +58,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(!(fragment instanceof TextField)) {
+            try {
+                fragment = TextField.class.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            replaceFragment(fragment);
+            navigationView.setCheckedItem(R.id.nav_camera);
+            toolbar.setTitle(fragment.getClass().getSimpleName());
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -81,16 +95,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
         Class fragmentClass = null;
         if (id == R.id.nav_camera) {
             // Handle the camera action
@@ -106,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -113,17 +127,20 @@ public class MainActivity extends AppCompatActivity
         }
         replaceFragment(fragment);
 
+        toolbar.setTitle(fragment.getClass().getSimpleName());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment replacedBy){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, replacedBy).commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        transaction.replace(R.id.fragment_container, fragment).commit();
-        transaction.addToBackStack(null);
+
+
     }
 
 

@@ -17,6 +17,9 @@ public class Counter extends Fragment implements View.OnClickListener{
                 container, false);
         ImageButton b = (ImageButton)view.findViewById(R.id.imageButton);
         b.setOnClickListener(this);
+
+        TextView textView = view.findViewById(R.id.counterText);
+        textView.setText(counter.toString());
         return view;
     }
 
