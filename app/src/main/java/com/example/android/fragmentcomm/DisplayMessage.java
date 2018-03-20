@@ -18,7 +18,7 @@ public class DisplayMessage extends Fragment {
         TextView text =  view.findViewById(R.id.textView3);
 
         if(getArguments().getString("SubmittedString") != null)
-        text.setText(getArguments().getString("SubmittedString"));
+            text.setText(getArguments().getString("SubmittedString"));
 
         return view;
     }
