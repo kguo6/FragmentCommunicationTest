@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Fragment fragment = null;
+    Fragment CurrentPage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        TextField newFrag = new TextField();
+        CurrentPage = new TextField();
 
-        transaction.add(R.id.fragment_container, newFrag);
+        transaction.add(R.id.fragment_container, CurrentPage);
         transaction.commit();
     }
 
@@ -62,15 +62,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(!(fragment instanceof TextField)) {
+        } else if(!(CurrentPage instanceof TextField)) {
             try {
-                fragment = TextField.class.newInstance();
+                CurrentPage = TextField.class.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            replaceFragment(fragment);
+            replaceFragment(CurrentPage);
             navigationView.setCheckedItem(R.id.nav_camera);
-            toolbar.setTitle(fragment.getClass().getSimpleName());
+            toolbar.setTitle(CurrentPage.getClass().getSimpleName());
         }
         else {
             super.onBackPressed();
@@ -121,13 +121,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
+            CurrentPage = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        replaceFragment(fragment);
+        replaceFragment(CurrentPage);
 
-        toolbar.setTitle(fragment.getClass().getSimpleName());
+        toolbar.setTitle(CurrentPage.getClass().getSimpleName());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
